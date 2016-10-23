@@ -3,18 +3,23 @@
 starJwmis::starJwmis(QWidget *parent) :
     QWidget(parent)
 {
-    url=new QLineEdit(this);
-    url->setText("http://jwmis.school.edu.cn/jwweb");
-    uis[0]=new login(this);
-    setGeometry(this->x(),this->y(),200,600);
-    reset_ui();
-}
+    top_layout=new QHBoxLayout();
+    login_info_button=new QPushButton(this);
+    login_info_button->setText("登陆信息");
+    my_info_button=new QPushButton(this);
+    my_info_button->setText("我的信息");
+    //top_layout->sets
+    top_layout->addWidget(login_info_button);
+    top_layout->addWidget(my_info_button);
 
-void starJwmis::reset_ui(){
-    for(int i=0;i<1;i++){
-        uis[i]->setGeometry(0,20,this->width(),this->height());
-        //uis[i]->setContentsMargins(0,20,0,0);
-    }
+    uis[0]=new login(this);
+    setWindowTitle("教务管理系统辅助客户端-");
+    main_layout=new QHBoxLayout();
+    main_layout->addWidget(uis[0]);
+
+    root_layout=new QVBoxLayout(this);
+    root_layout->addLayout(top_layout);
+    root_layout->addLayout(main_layout);
 }
 
 starJwmis::~starJwmis()

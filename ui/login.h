@@ -2,6 +2,7 @@
 #define LOGIN_H
 #include <QWidget>
 #include <starjwmis.h>
+#include <QLayout>
 #include <QLabel>
 #include <QLineEdit>
 #include <QPushButton>
@@ -18,10 +19,17 @@ public:
     ~login();
 
 private:
+    QVBoxLayout* main_layout;
+    QHBoxLayout* url_layout;
+    QLabel* url_text;
+    QLineEdit* url_box;
+    QHBoxLayout* username_layout;
     QLabel* username_text;
     QLineEdit* username_box;
+    QHBoxLayout* password_layout;
     QLabel* password_text;
     QLineEdit* password_box;
-    QPushButton* login_button;
+    QHBoxLayout* info_layout;
+    QLabel* info;
 };
 #endif

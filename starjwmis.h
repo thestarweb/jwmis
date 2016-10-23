@@ -2,7 +2,8 @@
 #define STARJWMIS_H
 
 #include <QWidget>
-#include <QLineEdit>
+#include <QPushButton>
+#include <QLayout>
 
 #include <ui/login.h>
 
@@ -16,11 +17,14 @@ class starJwmis : public QWidget
 
 public:
     explicit starJwmis(QWidget *parent = 0);
-    void reset_ui();
     ~starJwmis();
 
 private:
-    QLineEdit* url;
+    QVBoxLayout* root_layout;
+    QHBoxLayout* top_layout;
+    QPushButton* login_info_button;
+    QPushButton* my_info_button;
+    QHBoxLayout* main_layout;
     /*
      * 存放ui。。
      * 0 登陆ui
