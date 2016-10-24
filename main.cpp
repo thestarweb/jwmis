@@ -10,6 +10,7 @@ int main(int argc, char *argv[])
     h->exec("","sid=123&aa=q");
     starJwmis w;
     w.show();
+    w.resize(360,640);
 
     return a.exec();
 }

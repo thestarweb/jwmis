@@ -6,6 +6,7 @@
 #include <QLayout>
 
 #include <ui/login.h>
+#include <ui/menu.h>
 
 namespace Ui {
 class starJwmis;
@@ -21,16 +22,12 @@ public:
 
 private:
     QVBoxLayout* root_layout;
-    QHBoxLayout* top_layout;
-    QPushButton* login_info_button;
-    QPushButton* my_info_button;
-    QHBoxLayout* main_layout;
-    /*
-     * 存放ui。。
-     * 0 登陆ui
-     * 1 选项ui
-     */
-    QWidget* uis[1];
+    menu* menu_ui;
+    login* login_ui;
+    QWidget* now_ui;
+public slots:
+    void to_menu_ui();
+    void to_login_ui();
 };
 
 #endif // STARJWMIS_H

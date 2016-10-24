@@ -1,7 +1,6 @@
 #ifndef LOGIN_H
 #define LOGIN_H
 #include <QWidget>
-#include <starjwmis.h>
 #include <QLayout>
 #include <QLabel>
 #include <QLineEdit>
@@ -31,5 +30,10 @@ private:
     QLineEdit* password_box;
     QHBoxLayout* info_layout;
     QLabel* info;
+    QPushButton* return_button;
+signals:
+    void on_return();
+public slots:
+    void _on_return();
 };
 #endif

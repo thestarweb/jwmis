@@ -15,8 +15,10 @@ TEMPLATE = app
 SOURCES += main.cpp\
         starjwmis.cpp \
     network/http.cpp \
-    ui/login.cpp
+    ui/login.cpp \
+    ui/menu.cpp
 
 HEADERS  += starjwmis.h \
     network/http.h \
-    ui/login.h
+    ui/login.h \
+    ui/menu.h

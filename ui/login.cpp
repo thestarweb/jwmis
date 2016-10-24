@@ -30,10 +30,14 @@ login::login(QWidget* parent) :
     password_layout->addWidget(password_text);
     password_layout->addWidget(password_box);
 
-    info_layout=new QHBoxLayout();
+    //info_layout=new QHBoxLayout();
     info=new QLabel(this);
-    info->setText("请在这里设置好信息，在需要时会弹出验证码窗口已完成登陆");
-    info_layout->addWidget(info);
+    info->setText("请在这里设置好信息，在需要时会弹出验证码窗口以完成登陆,设置完毕后返回主菜单去选择你要的功能吧、");
+    //info_layout->addWidget(info);
+
+    return_button=new QPushButton(this);
+    return_button->setText("返回主菜单");
+    QObject::connect(return_button,SIGNAL(clicked(bool)),this,SLOT(_on_return()));
 
     main_layout=new QVBoxLayout(this);
     main_layout->addStretch(10);
@@ -43,7 +47,10 @@ login::login(QWidget* parent) :
     main_layout->addStretch(1);
     main_layout->addLayout(password_layout);
     main_layout->addStretch(1);
-    main_layout->addLayout(info_layout);
+    main_layout->addWidget(info);
+    info->setWordWrap(true);
+    main_layout->addStretch(1);
+    main_layout->addWidget(return_button);
     main_layout->addStretch(10);
 
     /*username_text->setGeometry(2,2,50,20);
@@ -51,6 +58,10 @@ login::login(QWidget* parent) :
     password_text->setGeometry(2,24,50,20);
     password_box->setGeometry(54,24,this->width()-56,20);
     login_button->setGeometry(4,46,this->width()-8,40);*/
+}
+
+void login::_on_return(){
+    on_return();
 }
 
 login::~login()
