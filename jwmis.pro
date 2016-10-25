@@ -7,6 +7,8 @@
 QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+QT+=network
+
 
 TARGET = jwmis
 TEMPLATE = app
@@ -16,9 +18,11 @@ SOURCES += main.cpp\
         starjwmis.cpp \
     network/http.cpp \
     ui/login.cpp \
-    ui/menu.cpp
+    ui/menu.cpp \
+    network/httpinfo.cpp
 
 HEADERS  += starjwmis.h \
     network/http.h \
     ui/login.h \
-    ui/menu.h
+    ui/menu.h \
+    network/httpinfo.h

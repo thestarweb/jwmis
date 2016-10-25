@@ -5,7 +5,7 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    http* h=new http("http://jwmis.school.edu.cn/jwweb");
+    http* h=new http("http://jwmis.hnie.edu.cn/jwweb");
     h->set_head("t","123");
     h->exec("","sid=123&aa=q");
     starJwmis w;

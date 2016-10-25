@@ -7,7 +7,7 @@ login::login(QWidget* parent) :
     url_text=new QLabel(this);
     url_text->setText("网　址");
     url_box=new QLineEdit(this);
-    url_box->setText("http://jwmis.hnie.edu.cn/jwmis");
+    url_box->setText("http://jwmis.school.edu.cn/jwmis");
     url_text->setBuddy(url_box);
     url_layout->addWidget(url_text);
     url_layout->addWidget(url_box);
