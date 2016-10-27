@@ -1,9 +1,12 @@
 #include <QString>
 #include <QtNetwork/QTcpSocket>
 #include <network/http_response.h>
+#include <QStack>
 namespace network {
 class http;
 }
+
+typedef void(*callback)(http_response*);
 
 class http:QObject
 {
@@ -13,9 +16,9 @@ public:
     explicit http(QString urlbase);
     ~http();
     http* set_head(QString name,QString value);
-    QString exec(QString url);
-    QString exec(QString url,QMap<QString,QString> *postdata);
-    QString exec(QString url, const QString postdata);
+    QString exec(QString url,callback cb);
+    QString exec(QString url,QMap<QString,QString> *postdata,callback cb);
+    QString exec(QString url,callback cb, const QString postdata);
 
 private:
     QString host;
@@ -30,6 +33,9 @@ private:
 
     //下面的数据用于记录响应
     http_response* last_info;
+
+    //下面的函数用于记录回调函数
+    QStack<callback> callbacks;
 public slots:
     void connect_error();
     void net_errror();
