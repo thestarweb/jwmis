@@ -19,10 +19,12 @@ SOURCES += main.cpp\
     network/http.cpp \
     ui/login.cpp \
     ui/menu.cpp \
-    network/httpinfo.cpp
+    network/http_response.cpp \
+    ui/yzm.cpp
 
 HEADERS  += starjwmis.h \
     network/http.h \
     ui/login.h \
     ui/menu.h \
-    network/httpinfo.h
+    network/http_response.h \
+    ui/yzm.h

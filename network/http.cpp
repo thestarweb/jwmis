@@ -83,7 +83,7 @@ QString http::exec(QString url,const QString post){
     }
     //qDebug("%s",qPrintable(httpHead));
     connect();
-    last_info=new httpinfo();
+    last_info=new http_response();
     socket->write(httpHead.toUtf8());
     return "";
 }

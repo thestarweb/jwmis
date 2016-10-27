@@ -1,14 +1,14 @@
-#ifndef HTTPINFO_H
-#define HTTPINFO_H
+#ifndef HTTP_RESPONSE_H
+#define HTTP_RESPONSE_H
 
 #include <QString>
 #include <Qmap>
 
-class httpinfo
+class http_response
 {
 public:
-    httpinfo();
-    QString content;
+    explicit http_response();
+    QByteArray content;
     QMap<QString,QString> head;
     int http_state;
     int read_state;

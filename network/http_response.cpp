@@ -1,6 +1,6 @@
-#include "httpinfo.h"
+#include "http_response.h"
 
-httpinfo::httpinfo()
+http_response::http_response()
 {
     content="";
     http_state=0;

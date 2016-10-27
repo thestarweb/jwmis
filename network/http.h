@@ -1,6 +1,6 @@
 #include <QString>
 #include <QtNetwork/QTcpSocket>
-#include <network/httpinfo.h>
+#include <network/http_response.h>
 namespace network {
 class http;
 }
@@ -29,7 +29,7 @@ private:
     QMap<QString,QString> head;
 
     //下面的数据用于记录响应
-    httpinfo* last_info;
+    http_response* last_info;
 public slots:
     void connect_error();
     void net_errror();
