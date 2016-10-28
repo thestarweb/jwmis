@@ -10,6 +10,7 @@ menu::menu(QWidget *parent) : QWidget(parent)
 
     my_info_button=new QPushButton(this);
     my_info_button->setText("我的信息");
+    QObject::connect(my_info_button,SIGNAL(clicked(bool)),this,SLOT(_on_info_click()));
 
     main_layout->addStretch(9);
     main_layout->addWidget(login_button);
@@ -20,5 +21,8 @@ menu::menu(QWidget *parent) : QWidget(parent)
 }
 void menu::_on_login_click(){
     on_login_click();
+}
+void menu::_on_info_click(){
+    on_info_click();
 }
 

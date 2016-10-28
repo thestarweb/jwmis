@@ -20,8 +20,10 @@ private:
     QPushButton* my_info_button;
 signals:
     void on_login_click();
+    void on_info_click();
 public slots:
     void _on_login_click();
+    void _on_info_click();
 };
 
 #endif // MENU_H

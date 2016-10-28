@@ -7,6 +7,7 @@
 
 #include <ui/login.h>
 #include <ui/menu.h>
+#include <ui/my_info.h>
 
 namespace Ui {
 class starJwmis;
@@ -17,17 +18,21 @@ class starJwmis : public QWidget
     Q_OBJECT
 
 public:
-    explicit starJwmis(QWidget *parent = 0);
     ~starJwmis();
+    static starJwmis* get();
 
 private:
+    explicit starJwmis(QWidget *parent = 0);
+    static starJwmis* selfobj;
     QVBoxLayout* root_layout;
     menu* menu_ui;
     login* login_ui;
+    my_info* my_info_ui;
     QWidget* now_ui;
 public slots:
     void to_menu_ui();
     void to_login_ui();
+    void to_info_ui();
 };
 
 #endif // STARJWMIS_H

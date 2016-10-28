@@ -20,11 +20,15 @@ SOURCES += main.cpp\
     ui/login.cpp \
     ui/menu.cpp \
     network/http_response.cpp \
-    ui/yzm.cpp
+    ui/yzm.cpp \
+    network/jwweb_net.cpp \
+    ui/my_info.cpp
 
 HEADERS  += starjwmis.h \
     network/http.h \
     ui/login.h \
     ui/menu.h \
     network/http_response.h \
-    ui/yzm.h
+    ui/yzm.h \
+    network/jwweb_net.h \
+    ui/my_info.h

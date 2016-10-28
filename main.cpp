@@ -13,9 +13,12 @@ int main(int argc, char *argv[])
     http* h=new http("http://www.thestarweb.cn/");
     h->set_head("t","123");
     h->exec("",&test);
-    starJwmis w;
-    w.show();
-    w.resize(360,640);
+    //starJwmis w;
+    //w.show();
+    //w.resize(360,640);
+    starJwmis* w=starJwmis::get();
+    w->show();
+    w->resize(360,640);
 
     return a.exec();
 }

@@ -1,3 +1,6 @@
+#ifndef NETWORK_H
+#define NETWORK_H
+
 #include <QString>
 #include <QtNetwork/QTcpSocket>
 #include <network/http_response.h>
@@ -41,3 +44,5 @@ public slots:
     void net_errror();
     void read();
 };
+
+#endif

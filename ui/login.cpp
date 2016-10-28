@@ -60,6 +60,16 @@ login::login(QWidget* parent) :
     login_button->setGeometry(4,46,this->width()-8,40);*/
 }
 
+QString login::url(){
+    return this->url_box->text();
+}
+QString login::username(){
+    return this->username_box->text();
+}
+QString login::password(){
+    return this->password_box->text();
+}
+
 void login::_on_return(){
     on_return();
 }

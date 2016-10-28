@@ -16,6 +16,9 @@ class login : public QWidget
 public:
     explicit login(QWidget *parent = 0);
     ~login();
+    QString url();
+    QString username();
+    QString password();
 
 private:
     QVBoxLayout* main_layout;
