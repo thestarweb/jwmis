@@ -56,24 +56,24 @@ void http::connect(){
     }
 }
 
-QString http::exec(QString url, callback cb){
-    this->exec(url,cb,NULL);
+QString http::exec(QString url,QString type_name){
+    this->exec(url,type_name,NULL);
     return "";
 }
 
-QString http::exec(QString url, QMap<QString,QString> *post, callback cb){
+QString http::exec(QString url, QMap<QString,QString> *post,QString type_name){
     if(post!=NULL){
         QString data="";
         foreach(const QString &key, post->keys()){
             data+=key+"="+post->value(key);
         }
-        return this->exec(url,cb,data);
+        return this->exec(url,type_name,data);
     }
     return "";
 }
 
-QString http::exec(QString url, callback cb, const QString post){
-    callbacks.push(cb);
+QString http::exec(QString url, QString type_name, const QString post){
+    response_info.push(new http_response(type_name));
     QString httpHead=post==NULL?"GET":"POST";
     httpHead+=" "+page_base+url+" HTTP/1.1\nhost: "+host+"\n";
     foreach(QString key,head.keys()){
@@ -104,10 +104,12 @@ void http::net_errror(){
 void http::read(){
     QByteArray l=NULL;
     QString s;
+    http_response* last_info=response_info.first();
     do{
         if(last_info==NULL){
-            last_info=new http_response();
+            continue;
         }
+        if(l.length()==0) return;
         l=socket->readLine(1024);
         //qDebug()<<l<<"--";
         if(last_info->read_state==0){
@@ -131,7 +133,7 @@ void http::read(){
             if(last_info->content.length()==last_info->content_lenth)
             {
                 last_info->read_state++;
-                callbacks.pop()(last_info);
+                onresponse(response_info.pop());
                 last_info=NULL;
             }
         }

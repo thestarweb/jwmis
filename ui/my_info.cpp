@@ -1,13 +1,15 @@
 #include "my_info.h"
-void set_info_test(QString h){
-    //
-}
+#include <QDebug>
 
 my_info::my_info(QWidget *parent) : QWidget(parent)
 {
-    jwweb_net *j=jwweb_net::get();
-    j->get_info(&set_info_test);
+    //
 }
 void my_info::set_info(QString html){
-    //
+    qDebug(qUtf8Printable(html));
+    qDebug(qUtf8Printable(t));
+}
+void my_info::showEvent(QShowEvent *){
+    jwweb_net::get()->get_info();
+    t="'s'";
 }

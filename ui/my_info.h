@@ -2,17 +2,21 @@
 #define MY_INFO_H
 
 #include <QWidget>
+#include <QShowEvent>
 #include <network/jwweb_net.h>
 
-class my_info : public QWidget
+class my_info : public QWidget,public netcb
 {
     Q_OBJECT
 public:
     explicit my_info(QWidget *parent = 0);
-    void set_info(QString html);
+private:
+    void showEvent(QShowEvent *);
+    QString t;
 signals:
 
 public slots:
+    void set_info(QString html);
 };
 
 #endif // MY_INFO_H

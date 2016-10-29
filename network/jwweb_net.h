@@ -3,13 +3,16 @@
 
 #include <network/http.h>
 #include <ui/yzm.h>
-typedef void(*jw_info_callback)(QString);
+class netcb{
+
+};
+typedef void(netcb::*jw_info_callback)(QString);
 
 class jwweb_net
 {
 public:
     static jwweb_net* get();
-    void get_info(jw_info_callback cb);
+    void get_info();
 private:
     static jwweb_net* selfobj;
     jwweb_net();

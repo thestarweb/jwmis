@@ -11,7 +11,7 @@ jwweb_net::jwweb_net()
     yzm_ui=new yzm();
     yzm_ui->hide();
 }
-void jwweb_net::get_info(jw_info_callback jw){
+void jwweb_net::get_info(){
     yzm_ui->show();
 }
 
