@@ -33,9 +33,9 @@ starJwmis::starJwmis(QWidget *parent) :
 
 
     http* h=new http("http://www.thestarweb.cn/");
+    QObject::connect(h,SIGNAL(onresponse(http_response*)),this,SLOT(test(http_response*)));
     h->set_head("t","123");
     h->exec("","test");
-    QObject::connect(h,SIGNAL(onresponse(http_response*)),this,SLOT(test(http_response*)));
 }
 
 void starJwmis::to_menu_ui(){

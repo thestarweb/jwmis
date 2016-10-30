@@ -107,10 +107,10 @@ void http::read(){
     http_response* last_info=response_info.first();
     do{
         if(last_info==NULL){
-            continue;
+            return;
         }
-        if(l.length()==0) return;
         l=socket->readLine(1024);
+        if(l.length()==0) return;
         //qDebug()<<l<<"--";
         if(last_info->read_state==0){
             s=l;
