@@ -5,7 +5,7 @@
 #include <QShowEvent>
 #include <network/jwweb_net.h>
 
-class my_info : public QWidget,public netcb
+class my_info : public QWidget
 {
     Q_OBJECT
 public:

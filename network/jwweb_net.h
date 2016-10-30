@@ -3,21 +3,26 @@
 
 #include <network/http.h>
 #include <ui/yzm.h>
-class netcb{
 
-};
-typedef void(netcb::*jw_info_callback)(QString);
+//typedef void(jwweb_net::*jw_callback)(QString);
 
-class jwweb_net
+class jwweb_net:public QObject
 {
+    Q_OBJECT
+
 public:
     static jwweb_net* get();
     void get_info();
+    void login();
 private:
+    bool is_login;
     static jwweb_net* selfobj;
-    jwweb_net();
+    explicit jwweb_net();
+    ~jwweb_net();
     yzm *yzm_ui;
-
+    http* sender;
+public slots:
+    void on_yzimg_get(http_response* res);
 };
 
 #endif // JWWEB_NET_H

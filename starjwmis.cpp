@@ -38,6 +38,16 @@ starJwmis::starJwmis(QWidget *parent) :
     h->exec("","test");
 }
 
+QString starJwmis::url(){
+    return login_ui->url();
+}
+QString starJwmis::username(){
+    return login_ui->username();
+}
+QString starJwmis::password(){
+    return login_ui->password();
+}
+
 void starJwmis::to_menu_ui(){
     now_ui->hide();
     menu_ui->show();

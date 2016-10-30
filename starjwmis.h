@@ -14,6 +14,7 @@
 namespace Ui {
 class starJwmis;
 }
+class my_info;
 
 class starJwmis : public QWidget
 {
@@ -22,7 +23,9 @@ class starJwmis : public QWidget
 public:
     ~starJwmis();
     static starJwmis* get();
-
+    QString url();
+    QString username();
+    QString password();
 private:
     explicit starJwmis(QWidget *parent = 0);
     static starJwmis* selfobj;
