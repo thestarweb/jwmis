@@ -18,12 +18,13 @@ starJwmis::starJwmis(QWidget *parent) :
     QObject::connect(menu_ui,SIGNAL(on_login_click()),this,SLOT(to_login_ui()));
     QObject::connect(menu_ui,SIGNAL(on_info_click()),this,SLOT(to_info_ui()));
     now_ui=menu_ui;
-    //main_layout=new QHBoxLayout();
-    //main_layout->addWidget(uis[0]);
+
     login_ui=new login(this);
     QObject::connect(login_ui,SIGNAL(on_return()),this,SLOT(to_menu_ui()));
     login_ui->hide();
+
     my_info_ui=new my_info(this);
+    QObject::connect(my_info_ui,SIGNAL(on_return()),this,SLOT(to_menu_ui()));
     my_info_ui->hide();
 
     root_layout=new QVBoxLayout(this);

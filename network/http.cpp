@@ -79,6 +79,13 @@ QString http::exec(QString url, QString type_name, const QString post){
     foreach(QString key,head.keys()){
         httpHead+=key+": "+head.value(key)+"\n";
     }
+    if(!cookie.isEmpty()){
+        httpHead+="cookie: ";
+        foreach(QString key,cookie.keys()){
+            httpHead+=key+"="+cookie.value(key)+"; ";
+        }
+        httpHead+="\n";
+    }
 
     if(post!=NULL){
         httpHead+="Content-Length: "+QString::number(post.length())+" \n\n"+post;
@@ -121,7 +128,12 @@ void http::read(){
             else{
                 s=l;
                 last_info->head.insert(s.section(": ",0,0),s.section(": ",1));
-                //qDebug()<<s.section(": ",0,0)<<"--"<<s.section(": ",1).trimmed();
+                if(s.section(": ",0,0)=="Set-Cookie"){
+                    qDebug()<<l<<"-"<<cookie.isEmpty();
+                    QString c=s.section(": ",1).section(";",0,0);
+                    cookie.insert(c.section("=",0,0),c.section("=",1));
+                    qDebug()<<cookie.isEmpty();
+                }
             }
         }else if(last_info->read_state==2){
             last_info->content_lenth=last_info->head.value("Content-Length").toInt();

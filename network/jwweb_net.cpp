@@ -12,13 +12,14 @@ jwweb_net::jwweb_net()
     is_login=false;
     yzm_ui=new yzm();
     yzm_ui->hide();
+    sender=NULL;
 }
 jwweb_net::~jwweb_net(){
     //
 }
 
 void jwweb_net::login(){
-    sender=new http(starJwmis::get()->url());
+    if(sender==NULL)sender=new http(starJwmis::get()->url());
     QObject::connect(sender,SIGNAL(onresponse(http_response*)),this,SLOT(on_yzimg_get(http_response*)));
     sender->exec("sys/ValidateCode.aspx","yz-img");
 }
