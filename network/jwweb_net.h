@@ -22,7 +22,7 @@ private:
     yzm *yzm_ui;
     http* sender;
 public slots:
-    void on_yzimg_get(http_response* res);
+    void net_cb(http_response* res);
 };
 
 #endif // JWWEB_NET_H

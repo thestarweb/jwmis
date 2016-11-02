@@ -38,7 +38,6 @@ public slots:
     void to_menu_ui();
     void to_login_ui();
     void to_info_ui();
-    void test(http_response* r);
 };
 
 #endif // STARJWMIS_H

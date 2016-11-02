@@ -32,11 +32,6 @@ starJwmis::starJwmis(QWidget *parent) :
     root_layout->addWidget(menu_ui);
     root_layout->addWidget(login_ui);
 
-
-    http* h=new http("http://www.thestarweb.cn/");
-    QObject::connect(h,SIGNAL(onresponse(http_response*)),this,SLOT(test(http_response*)));
-    h->set_head("t","123");
-    h->exec("","test");
 }
 
 QString starJwmis::url(){
@@ -63,10 +58,6 @@ void starJwmis::to_info_ui(){
     now_ui->hide();
     my_info_ui->show();
     now_ui=my_info_ui;
-}
-
-void starJwmis::test(http_response* r){
-    qDebug("%s",qUtf8Printable(r->content));
 }
 
 starJwmis::~starJwmis()

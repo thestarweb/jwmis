@@ -131,7 +131,7 @@ void http::read(){
                 if(s.section(": ",0,0)=="Set-Cookie"){
                     qDebug()<<l<<"-"<<cookie.isEmpty();
                     QString c=s.section(": ",1).section(";",0,0);
-                    cookie.insert(c.section("=",0,0),c.section("=",1));
+                    //cookie.insert(c.section("=",0,0),c.section("=",1));
                     qDebug()<<cookie.isEmpty();
                 }
             }
