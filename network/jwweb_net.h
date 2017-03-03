@@ -23,6 +23,7 @@ private:
     http* sender;
 public slots:
     void net_cb(http_response* res);
+    void _login(QString yzm);
 };
 
 #endif // JWWEB_NET_H

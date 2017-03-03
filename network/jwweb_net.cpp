@@ -14,6 +14,7 @@ jwweb_net::jwweb_net()
     is_login=false;
     yzm_ui=new yzm();
     yzm_ui->hide();
+    QObject::connect(yzm_ui,SIGNAL(yzm_ok(QString)),this,SLOT(_login(QString)));
     sender=NULL;
 }
 jwweb_net::~jwweb_net(){
@@ -25,6 +26,9 @@ void jwweb_net::login(){
     QObject::connect(sender,SIGNAL(onresponse(http_response*)),this,SLOT(net_cb(http_response*)));
     sender->exec("_data/index_LOGIN.aspx","login_pre");
 }
+void jwweb_net::_login(QString yzm){
+    qDebug()<<yzm;
+}
 
 void jwweb_net::get_info(){
     //yzm_ui->show();
@@ -32,17 +36,14 @@ void jwweb_net::get_info(){
     //sender->exec("_data/index_LOGIN.aspx","get_info");
 }
 
-void jwweb_net::net_cb(http_response* res){
+void jwweb_net::net_cb(http_response* res){//网络回掉函数
     QString type=res->info();
-    qDebug()<<type;
     if(type=="login_pre"){
         qDebug()<<res->http_state;
         if(res->http_state==200){
-            QRegExp* reg=new QRegExp("/<input type=\"hidden\" name=\"__VIEWSTATE\" value=\"(.*?)\" />/");
-            if(reg->exactMatch(QString::fromLocal8Bit(res->content))){
+            QRegExp* reg=new QRegExp("input [^>]*name=\"([^\"]+)\" value=\"([^\"]+)\"");
+            for(int i=0;(i=reg->indexIn(QString::fromLocal8Bit(res->content),i)+1)!=0;){
                 qDebug()<<reg->capturedTexts();
-            }else{
-                qDebug()<<qUtf8Printable(res->content);
             }
             sender->exec("sys/ValidateCode.aspx","yz-img");
         }

@@ -24,8 +24,9 @@ private:
     QLineEdit* yzm_input;
     QPushButton* ok_button;
 signals:
-    input_ok();
+    void yzm_ok(QString yzm);
 public slots:
+    void input_ok();
     void Show(QByteArray data);
 };
 

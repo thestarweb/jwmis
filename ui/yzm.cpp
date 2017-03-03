@@ -17,6 +17,7 @@ yzm::yzm(QWidget *parent) : QWidget(parent)
     ok_button->setText("确定");
     root->addWidget(ok_button);
     //setFixedSize(this->width(),this->height());
+    QObject::connect(ok_button,SIGNAL(clicked(bool)),this,SLOT(input_ok()));
 }
 void yzm::closeEvent(QCloseEvent *event){
     event->ignore();
@@ -27,4 +28,9 @@ void yzm::Show(QByteArray data){
     yztp->loadFromData(data);
     yzm_box->setPixmap(QPixmap::fromImage(*yztp));
     show();
+}
+void yzm::input_ok(){
+    qDebug("m");
+    yzm_ok(yzm_input->text());
+    this->hide();
 }
