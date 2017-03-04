@@ -1,6 +1,8 @@
 #ifndef JWWEB_NET_H
 #define JWWEB_NET_H
 
+#include <QMap>
+
 #include <network/http.h>
 #include <ui/yzm.h>
 
@@ -21,6 +23,7 @@ private:
     ~jwweb_net();
     yzm *yzm_ui;
     http* sender;
+    QMap<QString,QString> *login_data;
 public slots:
     void net_cb(http_response* res);
     void _login(QString yzm);
