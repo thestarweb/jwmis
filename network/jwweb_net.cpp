@@ -18,6 +18,7 @@ jwweb_net::jwweb_net()
     QObject::connect(yzm_ui,SIGNAL(yzm_ok(QString)),this,SLOT(_login(QString)));
     sender=NULL;
     login_data=new QMap<QString,QString>;
+    login_data->insert("Sel_Type","STU");
 }
 jwweb_net::~jwweb_net(){
     //
@@ -50,6 +51,7 @@ void jwweb_net::_login(QString yzm){
     foreach(const QString &key, login_data->keys()){
         qDebug()<<key+"="+login_data->value(key);
     }
+    sender->exec("_data/index_LOGIN.aspx",login_data,"login_cb");
 }
 
 void jwweb_net::get_info(){
@@ -61,7 +63,6 @@ void jwweb_net::get_info(){
 void jwweb_net::net_cb(http_response* res){//网络回掉函数
     QString type=res->info();
     if(type=="login_pre"){
-        qDebug()<<res->http_state;
         if(res->http_state==200){
             QRegExp* reg=new QRegExp("input [^>]*name=\"([^\"]+)\" value=\"([^\"]+)\"");
             for(int i=0;(i=reg->indexIn(QString::fromLocal8Bit(res->content),i)+1)!=0;){
@@ -75,6 +76,8 @@ void jwweb_net::net_cb(http_response* res){//网络回掉函数
             yzm_ui->Show(res->content);
         else
             qDebug("can't get yanzhengma");
+    }else if(type=="get_info"){
+        qDebug()<<res->http_state;
     }
 }
 

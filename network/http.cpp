@@ -39,7 +39,7 @@ void http::add_deflate_head(){
     set_head("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
     set_head("Accept-Encoding","deflate");
     set_head("Connection","keep-alive");
-    set_head("User-Agent","star QT jwmis");
+    set_head("User-Agent","Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2486.0 Safari/537.36 Edge/13.10586");
 }
 
 void http::connect(){
@@ -63,9 +63,10 @@ QString http::exec(QString url,QString type_name){
 
 QString http::exec(QString url, QMap<QString,QString> *post,QString type_name){
     if(post!=NULL){
-        QString data="";
+        QString data="",value;
         foreach(const QString &key, post->keys()){
-            data+=key+"="+post->value(key);
+            value=post->value(key);
+            data+=key+"="+value.replace(QString::fromLocal8Bit("="),QString::fromLocal8Bit("%3D"))+"&";
         }
         return this->exec(url,type_name,data);
     }
@@ -118,7 +119,7 @@ void http::read(){
         }
         l=socket->readLine(1024);
         if(l.length()==0) return;
-        //qDebug()<<l<<"--";
+        qDebug()<<QString::fromLocal8Bit(l)<<"--";
         if(last_info->read_state==0){
             s=l;
             last_info->http_state=s.section(" ",1,1).toInt();
