@@ -3,6 +3,7 @@
 #include <QRegExp>
 #include <QDebug>
 #include <QCryptographicHash>
+#include <QMessageBox>
 
 jwweb_net* jwweb_net::selfobj=NULL;
 jwweb_net* jwweb_net::get(){
@@ -17,7 +18,7 @@ jwweb_net::jwweb_net()
     yzm_ui->hide();
     QObject::connect(yzm_ui,SIGNAL(yzm_ok(QString)),this,SLOT(_login(QString)));
     sender=NULL;
-    login_data=new QMap<QString,QString>;
+    login_data=new QMap<QString,QByteArray>;
     login_data->insert("Sel_Type","STU");
 }
 jwweb_net::~jwweb_net(){
@@ -31,8 +32,12 @@ void jwweb_net::login(){
 }
 void jwweb_net::_login(QString yzm){
     qDebug()<<yzm;
-    login_data->insert("typeName","学生");//用户名
-    login_data->insert("txt_asmcdefsddsd",starJwmis::get()->username());//用户名
+    login_data->insert("typeName",QString::fromUtf8("学生").toLocal8Bit());//用户名
+    login_data->insert("pcInfo",sender->UA.toLocal8Bit());
+    login_data->insert("txt_pewerwedsdfsdff","");
+    login_data->insert("txt_sdertfgsadscxcadsads","");
+    login_data->insert("sbtState","");
+    login_data->insert("txt_asmcdefsddsd",starJwmis::get()->username().toLocal8Bit());//用户名
     login_data->insert("dsdsdsdsdxcxdfgfg", QString::fromLocal8Bit(
                            QCryptographicHash::hash (//密码
                                starJwmis::get()->username().toLocal8Bit()
@@ -40,17 +45,18 @@ void jwweb_net::_login(QString yzm){
                                +"11342"
                                ,QCryptographicHash::Md5
                            ).toHex()
-                         ).mid(0,30).toUpper());
+                         ).mid(0,30).toUpper().toLocal8Bit());
     login_data->insert("fgfggfdgtyuuyyuuckjg",
                        QString::fromLocal8Bit(
                            QCryptographicHash::hash (//验证码
                                QString::fromLocal8Bit(QCryptographicHash::hash(yzm.toUpper().toLocal8Bit(),QCryptographicHash::Md5).toHex()).mid(0,30).toUpper().toLocal8Bit()
                                +"11342"
                            , QCryptographicHash::Md5 ).toHex()
-                       ).mid(0,30).toUpper());
+                       ).mid(0,30).toUpper().toLocal8Bit());
     foreach(const QString &key, login_data->keys()){
         qDebug()<<key+"="+login_data->value(key);
     }
+    sender->set_head("Referer","http://jwmis.hnie.edu.cn/jwweb/_data/index_LOGIN.aspx");
     sender->exec("_data/index_LOGIN.aspx",login_data,"login_cb");
 }
 
@@ -66,8 +72,7 @@ void jwweb_net::net_cb(http_response* res){//网络回掉函数
         if(res->http_state==200){
             QRegExp* reg=new QRegExp("input [^>]*name=\"([^\"]+)\" value=\"([^\"]+)\"");
             for(int i=0;(i=reg->indexIn(QString::fromLocal8Bit(res->content),i)+1)!=0;){
-                qDebug()<<reg->capturedTexts();
-                login_data->insert(reg->capturedTexts().value(1),reg->capturedTexts().last());
+                login_data->insert(reg->capturedTexts().value(1),reg->capturedTexts().last().toLocal8Bit());
             }
             sender->exec("sys/ValidateCode.aspx","yz-img");
         }
@@ -76,6 +81,8 @@ void jwweb_net::net_cb(http_response* res){//网络回掉函数
             yzm_ui->Show(res->content);
         else
             qDebug("can't get yanzhengma");
+    }else if(type=="login_cb"){
+        QMessageBox::about(0,".","e"+QString::fromLocal8Bit(res->content).replace("<",""));
     }else if(type=="get_info"){
         qDebug()<<res->http_state;
     }

@@ -6,6 +6,7 @@ http::http(QString _url)
     info(_url);
     socket=NULL;
     last_info=NULL;
+    UA="Mozilla/5.0 (Windows NT 10.0; WOW64; rv:50.0) Gecko/20100101 Firefox/50.0Windows NT 10.0; WOW645.0 (Windows) SN:NULL";
 }
 
 void http::info(QString url){
@@ -39,7 +40,7 @@ void http::add_deflate_head(){
     set_head("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
     set_head("Accept-Encoding","deflate");
     set_head("Connection","keep-alive");
-    set_head("User-Agent","Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/46.0.2486.0 Safari/537.36 Edge/13.10586");
+    set_head("User-Agent",UA);
 }
 
 void http::connect(){
@@ -61,19 +62,19 @@ QString http::exec(QString url,QString type_name){
     return "";
 }
 
-QString http::exec(QString url, QMap<QString,QString> *post,QString type_name){
+QString http::exec(QString url, QMap<QString, QByteArray> *post, QString type_name){
     if(post!=NULL){
-        QString data="",value;
+        QByteArray data="",value;
         foreach(const QString &key, post->keys()){
             value=post->value(key);
-            data+=key+"="+value.replace(QString::fromLocal8Bit("="),QString::fromLocal8Bit("%3D"))+"&";
+            data+=key+"="+value.replace("=","%3D").replace(" ","+").replace("/","%2F").replace("(","%28").replace(")","%29").replace(";","%3B").replace(":","%3A")+"&";
         }
         return this->exec(url,type_name,data);
     }
     return "";
 }
 
-QString http::exec(QString url, QString type_name, const QString post){
+QString http::exec(QString url, QString type_name, const QByteArray post){
     response_info.push(new http_response(type_name));
     QString httpHead=post==NULL?"GET":"POST";
     httpHead+=" "+page_base+url+" HTTP/1.1\nhost: "+host+"\n";
@@ -89,7 +90,7 @@ QString http::exec(QString url, QString type_name, const QString post){
     }
 
     if(post!=NULL){
-        httpHead+="Content-Length: "+QString::number(post.length())+" \n\n"+post;
+        httpHead+="Content-Type: application/x-www-form-urlencoded\nContent-Length: "+QString::number(post.length())+" \n\n"+post;
     }else{
         httpHead+="\n";
     }
@@ -132,7 +133,7 @@ void http::read(){
                 if(s.section(": ",0,0)=="Set-Cookie"){
                     qDebug()<<l<<"-"<<cookie.isEmpty();
                     QString c=s.section(": ",1).section(";",0,0);
-                    //cookie.insert(c.section("=",0,0),c.section("=",1));
+                    cookie.insert(c.section("=",0,0),c.section("=",1));
                     qDebug()<<cookie.isEmpty();
                 }
             }

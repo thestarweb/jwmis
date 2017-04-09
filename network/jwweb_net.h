@@ -23,7 +23,7 @@ private:
     ~jwweb_net();
     yzm *yzm_ui;
     http* sender;
-    QMap<QString,QString> *login_data;
+    QMap<QString,QByteArray> *login_data;
 public slots:
     void net_cb(http_response* res);
     void _login(QString yzm);

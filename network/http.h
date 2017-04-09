@@ -15,12 +15,13 @@ class http:public QObject
     Q_OBJECT
 
 public:
+    QString UA;
     explicit http(QString urlbase);
     ~http();
     http* set_head(QString name,QString value);
     QString exec(QString url,QString type_name);
-    QString exec(QString url,QMap<QString,QString> *postdata,QString type_name);
-    QString exec(QString url,QString type_name, const QString postdata);
+    QString exec(QString url,QMap<QString,QByteArray> *postdata,QString type_name);
+    QString exec(QString url, QString type_name, const QByteArray postdata);
 
 private:
     QString host;
@@ -30,6 +31,7 @@ private:
     void add_deflate_head();
     QTcpSocket* socket;
     void connect();
+    QByteArray _mo(QByteArray in);
     QMap<QString,QString> cookie;
     QMap<QString,QString> head;
 
