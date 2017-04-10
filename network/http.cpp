@@ -3,10 +3,13 @@
 
 http::http(QString _url)
 {
+    UA="Mozilla/5.0 (Windows NT 10.0; WOW64; rv:50.0) Gecko/20100101 Firefox/50.0Windows NT 10.0; WOW645.0 (Windows) SN:NULL";
+    fp=new QFile("D:\\http.log.txt");
+    fp->open(QIODevice::WriteOnly | QIODevice::Text);
     info(_url);
+    log_stream=new QTextStream(fp);
     socket=NULL;
     last_info=NULL;
-    UA="Mozilla/5.0 (Windows NT 10.0; WOW64; rv:50.0) Gecko/20100101 Firefox/50.0Windows NT 10.0; WOW645.0 (Windows) SN:NULL";
 }
 
 void http::info(QString url){
@@ -90,11 +93,11 @@ QString http::exec(QString url, QString type_name, const QByteArray post){
     }
 
     if(post!=NULL){
-        httpHead+="Content-Type: application/x-www-form-urlencoded\nContent-Length: "+QString::number(post.length())+" \n\n"+post;
+        httpHead+="Content-Type: application/x-www-form-urlencoded\nContent-Length: "+QString::number(post.length())+" \n\n"+post+"\n\n";
     }else{
         httpHead+="\n";
     }
-    qDebug("%s",qPrintable(httpHead));
+    *log_stream<<"send:"<<endl<<httpHead<<endl;
     connect();
     socket->write(httpHead.toUtf8());
     return "";
@@ -121,6 +124,7 @@ void http::read(){
         l=socket->readLine(1024);
         if(l.length()==0) return;
         qDebug()<<QString::fromLocal8Bit(l)<<"--";
+        *log_stream<<QString::fromLocal8Bit(l);
         if(last_info->read_state==0){
             s=l;
             last_info->http_state=s.section(" ",1,1).toInt();
@@ -131,10 +135,10 @@ void http::read(){
                 s=l;
                 last_info->head.insert(s.section(": ",0,0),s.section(": ",1));
                 if(s.section(": ",0,0)=="Set-Cookie"){
-                    qDebug()<<l<<"-"<<cookie.isEmpty();
+                    //qDebug()<<l<<"-"<<cookie.isEmpty();
                     QString c=s.section(": ",1).section(";",0,0);
                     cookie.insert(c.section("=",0,0),c.section("=",1));
-                    qDebug()<<cookie.isEmpty();
+                    //qDebug()<<cookie.isEmpty();
                 }
             }
         }else if(last_info->read_state==2){
@@ -157,4 +161,5 @@ void http::read(){
 http::~http()
 {
     socket->close();
+    fp->close();
 }

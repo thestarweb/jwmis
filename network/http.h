@@ -5,6 +5,7 @@
 #include <QtNetwork/QTcpSocket>
 #include <network/http_response.h>
 #include <QStack>
+#include <QFile>
 namespace network {
 class http;
 }
@@ -40,6 +41,10 @@ private:
 
     //下面的队列用于返回数据队列
     QStack<http_response*> response_info;
+
+    //这是一个日志文件
+    QFile* fp;
+    QTextStream* log_stream;
 
 signals:
     void onresponse(http_response* res);
