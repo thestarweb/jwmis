@@ -86,8 +86,10 @@ QString http::exec(QString url, QString type_name, const QByteArray post){
     }
     if(!cookie.isEmpty()){
         httpHead+="cookie: ";
+        bool f=false;
         foreach(QString key,cookie.keys()){
-            httpHead+=key+"="+cookie.value(key)+"; ";
+            httpHead+=(f?"; ":"")+key+"="+cookie.value(key);
+            f=true;
         }
         httpHead+="\n";
     }
