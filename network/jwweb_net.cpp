@@ -4,6 +4,7 @@
 #include <QDebug>
 #include <QCryptographicHash>
 #include <QMessageBox>
+#include <QThread>
 
 jwweb_net* jwweb_net::selfobj=NULL;
 jwweb_net* jwweb_net::get(){
@@ -83,9 +84,16 @@ void jwweb_net::net_cb(http_response* res){//网络回掉函数
         else
             qDebug("can't get yanzhengma");
     }else if(type=="login_cb"){
-        QRegExp* reg=new QRegExp("<span id=\"divLogNote\"><font color=\"Red\">([^<]+)<");
-        reg->indexIn(QString::fromLocal8Bit(res->content));
-        QMessageBox::about(0,".",reg->cap(1));
+        if(res->http_state==200){
+            QRegExp* reg=new QRegExp("<span id=\"divLogNote\"><font color=\"Red\">([^<]+)<");
+            reg->indexIn(QString::fromLocal8Bit(res->content));
+            QString info=reg->cap(1);
+            if(info.indexOf("正在加载")==0) QMessageBox::about(0,"登陆成功","先放个这个测试下，");
+            else QMessageBox::about(0,"登陆失败",info);
+        }else if(res->http_state>=500){
+            sender->set_head("Referer","http://jwmis.hnie.edu.cn/jwweb/_data/index_LOGIN.aspx");
+            sender->exec("_data/index_LOGIN.aspx",login_data,"login_cb");
+        }
     }else if(type=="get_info"){
         qDebug()<<res->http_state;
     }
