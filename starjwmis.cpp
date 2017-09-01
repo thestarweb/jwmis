@@ -14,6 +14,12 @@ starJwmis::starJwmis(QWidget *parent) :
 
 
     setWindowTitle("教务管理系统辅助客户端-");
+
+    _info=new QLabel(this);
+    _info2=new QLabel(this);
+    _info2->setText("程序启动该");
+    QObject::connect(jwweb_net::get(),SIGNAL(log(QString)),this,SLOT(log(QString)));
+
     menu_ui=new menu(this);
     QObject::connect(menu_ui,SIGNAL(on_login_click()),this,SLOT(to_login_ui()));
     QObject::connect(menu_ui,SIGNAL(on_info_click()),this,SLOT(to_info_ui()));
@@ -28,9 +34,12 @@ starJwmis::starJwmis(QWidget *parent) :
     my_info_ui->hide();
 
     root_layout=new QVBoxLayout(this);
+    root_layout->addWidget(_info);
+    root_layout->addWidget(_info2);
     //root_layout->addLayout(top_layout);
     root_layout->addWidget(menu_ui);
     root_layout->addWidget(login_ui);
+    root_layout->addWidget(my_info_ui);
 
 }
 
@@ -58,6 +67,10 @@ void starJwmis::to_info_ui(){
     now_ui->hide();
     my_info_ui->show();
     now_ui=my_info_ui;
+}
+void starJwmis::log(QString info){
+    _info->setText(_info2->text());
+    _info2->setText(info);
 }
 
 starJwmis::~starJwmis()

@@ -23,16 +23,26 @@ jwweb_net::jwweb_net()
     login_data->insert("Sel_Type","STU");
 }
 jwweb_net::~jwweb_net(){
-    //
+}
+
+void jwweb_net::do_task(){
+    if(task_list.isEmpty()) return;
+    qDebug()<<"task\n";
+    QString task_name=task_list.dequeue();
+    if(task_name=="info")
+        sender->exec("xsxj/Stu_MyInfo_RPT.aspx","get_info");
+    else
+        qDebug()<<"unknow task : "<<task_name<<endl;
 }
 
 void jwweb_net::login(){
     if(sender==NULL)sender=new http(starJwmis::get()->url());
     QObject::connect(sender,SIGNAL(onresponse(http_response*)),this,SLOT(net_cb(http_response*)));
+    log("请求登陆页面");
     sender->exec("_data/index_LOGIN.aspx","login_pre");
 }
 void jwweb_net::_login(QString yzm){
-    qDebug()<<yzm;
+    log("组织登陆信息");
     login_data->insert("typeName",QString::fromUtf8("学生").toLocal8Bit());//用户名
     login_data->insert("pcInfo",sender->UA.toLocal8Bit());
     login_data->insert("txt_pewerwedsdfsdff","");
@@ -57,14 +67,16 @@ void jwweb_net::_login(QString yzm){
     foreach(const QString &key, login_data->keys()){
         qDebug()<<key+"="+login_data->value(key);
     }
+    log("等候服务器验证登陆信息");
     sender->set_head("Referer","http://jwmis.hnie.edu.cn/jwweb/_data/index_LOGIN.aspx");
     sender->exec("_data/index_LOGIN.aspx",login_data,"login_cb");
 }
 
 void jwweb_net::get_info(){
     //yzm_ui->show();
+    task_list.enqueue("info");
     login();
-    //sender->exec("_data/index_LOGIN.aspx","get_info");
+    //sender->exec("XSXJ/KingosLove.aspx","info");
 }
 
 void jwweb_net::net_cb(http_response* res){//网络回掉函数
@@ -75,6 +87,7 @@ void jwweb_net::net_cb(http_response* res){//网络回掉函数
             for(int i=0;(i=reg->indexIn(QString::fromLocal8Bit(res->content),i)+1)!=0;){
                 login_data->insert(reg->capturedTexts().value(1),reg->capturedTexts().last().toLocal8Bit());
             }
+            log("请求验证码");
             sender->set_head("Referer","http://jwmis.hnie.edu.cn/jwweb/_data/index_LOGIN.aspx");
             sender->exec("sys/ValidateCode.aspx","yz-img");
         }
@@ -88,14 +101,15 @@ void jwweb_net::net_cb(http_response* res){//网络回掉函数
             QRegExp* reg=new QRegExp("<span id=\"divLogNote\"><font color=\"Red\">([^<]+)<");
             reg->indexIn(QString::fromLocal8Bit(res->content));
             QString info=reg->cap(1);
-            if(info.indexOf("正在加载")==0) QMessageBox::about(0,"登陆成功","先放个这个测试下，");
+            if(info.indexOf("正在加载")==0) do_task();
             else QMessageBox::about(0,"登陆失败",info);
         }else if(res->http_state>=500){
             sender->set_head("Referer","http://jwmis.hnie.edu.cn/jwweb/_data/index_LOGIN.aspx");
             sender->exec("_data/index_LOGIN.aspx",login_data,"login_cb");
         }
     }else if(type=="get_info"){
-        qDebug()<<res->http_state;
+        qDebug()<<res->content;
+        QMessageBox::about(0,"ss",QString::fromLocal8Bit(res->content.replace("<","").replace(">"," ")));
     }
 }
 

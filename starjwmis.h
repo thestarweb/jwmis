@@ -4,12 +4,13 @@
 #include <QWidget>
 #include <QPushButton>
 #include <QLayout>
+#include <QLabel>
 
 #include <ui/login.h>
 #include <ui/menu.h>
 #include <ui/my_info.h>
 
-#include <network/http.h>
+#include <network/jwweb_net.h>
 
 namespace Ui {
 class starJwmis;
@@ -34,10 +35,13 @@ private:
     login* login_ui;
     my_info* my_info_ui;
     QWidget* now_ui;
+    QLabel* _info;
+    QLabel* _info2;
 public slots:
     void to_menu_ui();
     void to_login_ui();
     void to_info_ui();
+    void log(QString info);
 };
 
 #endif // STARJWMIS_H
