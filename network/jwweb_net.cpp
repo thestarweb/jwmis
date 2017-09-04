@@ -109,7 +109,9 @@ void jwweb_net::net_cb(http_response* res){//网络回掉函数
         }
     }else if(type=="get_info"){
         qDebug()<<res->content;
-        QMessageBox::about(0,"ss",QString::fromLocal8Bit(res->content.replace("<","").replace(">"," ")));
+        //QMessageBox::about(0,"ss",QString::fromLocal8Bit(res->content.replace("<","").replace(">"," ")));
+        log("请求信息成功！");
+        got_info(QString::fromLocal8Bit(res->content));
     }
 }
 

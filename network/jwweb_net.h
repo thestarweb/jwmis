@@ -29,6 +29,7 @@ private:
     void do_task();
 signals:
     void log(QString info);
+    void got_info(QString text);
 public slots:
     void net_cb(http_response* res);
     void _login(QString yzm);
