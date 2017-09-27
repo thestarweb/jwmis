@@ -68,7 +68,7 @@ void jwweb_net::_login(QString yzm){
         qDebug()<<key+"="+login_data->value(key);
     }
     log("等候服务器验证登陆信息");
-    sender->set_head("Referer","http://jwmis.hnie.edu.cn/jwweb/_data/index_LOGIN.aspx");
+    sender->set_head("Referer",starJwmis::get()->url()+"/_data/index_LOGIN.aspx");
     sender->exec("_data/index_LOGIN.aspx",login_data,"login_cb");
 }
 
@@ -88,7 +88,7 @@ void jwweb_net::net_cb(http_response* res){//网络回掉函数
                 login_data->insert(reg->capturedTexts().value(1),reg->capturedTexts().last().toLocal8Bit());
             }
             log("请求验证码");
-            sender->set_head("Referer","http://jwmis.hnie.edu.cn/jwweb/_data/index_LOGIN.aspx");
+            sender->set_head("Referer",starJwmis::get()->url()+"/_data/index_LOGIN.aspx");
             sender->exec("sys/ValidateCode.aspx","yz-img");
         }
     }else if(type=="yz-img"){
@@ -104,7 +104,7 @@ void jwweb_net::net_cb(http_response* res){//网络回掉函数
             if(info.indexOf("正在加载")==0) do_task();
             else QMessageBox::about(0,"登陆失败",info);
         }else if(res->http_state>=500){
-            sender->set_head("Referer","http://jwmis.hnie.edu.cn/jwweb/_data/index_LOGIN.aspx");
+            sender->set_head("Referer",starJwmis::get()->url()+"/jwweb/_data/index_LOGIN.aspx");
             sender->exec("_data/index_LOGIN.aspx",login_data,"login_cb");
         }
     }else if(type=="get_info"){

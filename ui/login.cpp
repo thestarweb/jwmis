@@ -32,7 +32,7 @@ login::login(QWidget* parent) :
 
     //info_layout=new QHBoxLayout();
     info=new QLabel(this);
-    info->setText("请在这里设置好信息，在需要时会弹出验证码窗口以完成登陆,设置完毕后返回主菜单去选择你要的功能吧、");
+    info->setText("请在这里设置好信息，在需要时会弹出验证码窗口以完成登陆,设置完毕后返回主菜单去选择你要的功能吧、注意网址最后请不要加斜杠否则可能出现问题");
     //info_layout->addWidget(info);
 
     return_button=new QPushButton(this);
@@ -53,6 +53,11 @@ login::login(QWidget* parent) :
     main_layout->addWidget(return_button);
     main_layout->addStretch(10);
 
+    url_cache="";
+    username_cache="";
+    password_cache="";
+    _is_update=false;
+
     /*username_text->setGeometry(2,2,50,20);
     username_box->setGeometry(54,2,this->width()-56,20);
     password_text->setGeometry(2,24,50,20);
@@ -71,9 +76,25 @@ QString login::password(){
 }
 
 void login::_on_return(){
+    if(url_box->text()!=url_cache||username_box->text()!=username_cache||password_box->text()!=password_cache){
+        _is_update=true;
+        url_cache=url_box->text();
+        username_cache=username_box->text();
+        password_cache=password_box->text();
+    }
     on_return();
 }
 
 login::~login()
 {
+}
+bool login::is_update(bool reset/*=true*/){
+    if(_is_update){
+        if(reset){
+            _is_update=false;
+        }
+        return true;
+    }else{
+        return false;
+    }
 }
