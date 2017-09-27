@@ -73,6 +73,10 @@ void starJwmis::log(QString info){
     _info2->setText(info);
 }
 
+bool starJwmis::is_logininfo_update(bool reset){
+    return login_ui->is_update(reset);
+}
+
 starJwmis::~starJwmis()
 {
 }

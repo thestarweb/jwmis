@@ -27,6 +27,7 @@ public:
     QString url();
     QString username();
     QString password();
+    bool is_logininfo_update(bool reset=true);
 private:
     explicit starJwmis(QWidget *parent = 0);
     static starJwmis* selfobj;

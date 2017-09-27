@@ -36,10 +36,14 @@ void jwweb_net::do_task(){
 }
 
 void jwweb_net::login(){
-    if(sender==NULL)sender=new http(starJwmis::get()->url());
-    QObject::connect(sender,SIGNAL(onresponse(http_response*)),this,SLOT(net_cb(http_response*)));
-    log("请求登陆页面");
-    sender->exec("_data/index_LOGIN.aspx","login_pre");
+    if(starJwmis::get()->is_logininfo_update()||sender==NULL){
+        sender=new http(starJwmis::get()->url());
+        QObject::connect(sender,SIGNAL(onresponse(http_response*)),this,SLOT(net_cb(http_response*)));
+        log("请求登陆页面");
+        sender->exec("_data/index_LOGIN.aspx","login_pre");
+    }else{
+        do_task();
+    }
 }
 void jwweb_net::_login(QString yzm){
     log("组织登陆信息");
@@ -101,7 +105,14 @@ void jwweb_net::net_cb(http_response* res){//网络回掉函数
             QRegExp* reg=new QRegExp("<span id=\"divLogNote\"><font color=\"Red\">([^<]+)<");
             reg->indexIn(QString::fromLocal8Bit(res->content));
             QString info=reg->cap(1);
-            if(info.indexOf("正在加载")==0) do_task();
+            if(info.indexOf("正在加载")==0){
+                log("登陆成功");
+                do_task();
+            }else if(info.indexOf("验证码")>=0){
+                log("验证码错误");
+                sender->set_head("Referer",starJwmis::get()->url()+"/_data/index_LOGIN.aspx");
+                sender->exec("sys/ValidateCode.aspx","yz-img");
+            }
             else QMessageBox::about(0,"登陆失败",info);
         }else if(res->http_state>=500){
             sender->set_head("Referer",starJwmis::get()->url()+"/jwweb/_data/index_LOGIN.aspx");

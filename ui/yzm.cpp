@@ -32,5 +32,6 @@ void yzm::Show(QByteArray data){
 void yzm::input_ok(){
     qDebug("m");
     yzm_ok(yzm_input->text());
+    yzm_input->setText("");
     this->hide();
 }
