@@ -22,7 +22,8 @@ SOURCES += main.cpp\
     network/http_response.cpp \
     ui/yzm.cpp \
     network/jwweb_net.cpp \
-    ui/my_info.cpp
+    ui/my_info.cpp \
+    ui/cjfb.cpp
 
 HEADERS  += starjwmis.h \
     network/http.h \
@@ -31,4 +32,5 @@ HEADERS  += starjwmis.h \
     network/http_response.h \
     ui/yzm.h \
     network/jwweb_net.h \
-    ui/my_info.h
+    ui/my_info.h \
+    ui/cjfb.h

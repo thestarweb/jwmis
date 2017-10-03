@@ -23,6 +23,7 @@ starJwmis::starJwmis(QWidget *parent) :
     menu_ui=new menu(this);
     QObject::connect(menu_ui,SIGNAL(on_login_click()),this,SLOT(to_login_ui()));
     QObject::connect(menu_ui,SIGNAL(on_info_click()),this,SLOT(to_info_ui()));
+    QObject::connect(menu_ui,SIGNAL(on_cjfb_click()),this,SLOT(to_cjfb_ui()));
     now_ui=menu_ui;
 
     login_ui=new login(this);
@@ -33,6 +34,10 @@ starJwmis::starJwmis(QWidget *parent) :
     QObject::connect(my_info_ui,SIGNAL(on_return()),this,SLOT(to_menu_ui()));
     my_info_ui->hide();
 
+    cjfb_ui=new cjfb(this);
+    QObject::connect(cjfb_ui,SIGNAL(on_return()),this,SLOT(to_menu_ui()));
+    cjfb_ui->hide();
+
     root_layout=new QVBoxLayout(this);
     root_layout->addWidget(_info);
     root_layout->addWidget(_info2);
@@ -40,6 +45,7 @@ starJwmis::starJwmis(QWidget *parent) :
     root_layout->addWidget(menu_ui);
     root_layout->addWidget(login_ui);
     root_layout->addWidget(my_info_ui);
+    root_layout->addWidget(cjfb_ui);
 
 }
 
@@ -68,6 +74,12 @@ void starJwmis::to_info_ui(){
     my_info_ui->show();
     now_ui=my_info_ui;
 }
+void starJwmis::to_cjfb_ui(){
+    now_ui->hide();
+    cjfb_ui->show();
+    now_ui=cjfb_ui;
+}
+
 void starJwmis::log(QString info){
     _info->setText(_info2->text());
     _info2->setText(info);

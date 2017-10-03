@@ -9,6 +9,7 @@
 #include <ui/login.h>
 #include <ui/menu.h>
 #include <ui/my_info.h>
+#include <ui/cjfb.h>
 
 #include <network/jwweb_net.h>
 
@@ -35,6 +36,7 @@ private:
     menu* menu_ui;
     login* login_ui;
     my_info* my_info_ui;
+    cjfb* cjfb_ui;
     QWidget* now_ui;
     QLabel* _info;
     QLabel* _info2;
@@ -42,6 +44,7 @@ public slots:
     void to_menu_ui();
     void to_login_ui();
     void to_info_ui();
+    void to_cjfb_ui();
     void log(QString info);
 };
 

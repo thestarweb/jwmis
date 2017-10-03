@@ -12,10 +12,16 @@ menu::menu(QWidget *parent) : QWidget(parent)
     my_info_button->setText("我的信息");
     QObject::connect(my_info_button,SIGNAL(clicked(bool)),this,SLOT(_on_info_click()));
 
+    cjfb_button=new QPushButton(this);
+    cjfb_button->setText("成绩分布");
+    QObject::connect(cjfb_button,SIGNAL(clicked(bool)),this,SLOT(_on_cjfb_click()));
+
     main_layout->addStretch(9);
     main_layout->addWidget(login_button);
     main_layout->addStretch(1);
     main_layout->addWidget(my_info_button);
+    main_layout->addStretch(1);
+    main_layout->addWidget(cjfb_button);
     main_layout->addStretch(11);
 
 }
@@ -24,5 +30,8 @@ void menu::_on_login_click(){
 }
 void menu::_on_info_click(){
     on_info_click();
+}
+void menu::_on_cjfb_click(){
+    on_cjfb_click();
 }
 
