@@ -15,6 +15,7 @@ class jwweb_net:public QObject
 
 public:
     static jwweb_net* get();
+    void add_task(QString task);
     void get_info();
     void login();
 private:

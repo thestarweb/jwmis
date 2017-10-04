@@ -29,10 +29,20 @@ void jwweb_net::do_task(){
     if(task_list.isEmpty()) return;
     qDebug()<<"task\n";
     QString task_name=task_list.dequeue();
-    if(task_name=="info")
+    if(task_name=="info"){
+        log("正在获取信息");
         sender->exec("xsxj/Stu_MyInfo_RPT.aspx","get_info");
+    }
+    else if(task_name=="cjfb_pre"){
+        log("正在获取学期信息");
+        sender->exec("xscj/Stu_cjfb.aspx","cjfb_pre");
+    }
     else
         qDebug()<<"unknow task : "<<task_name<<endl;
+}
+void jwweb_net::add_task(QString task){
+    task_list.enqueue(task);
+    login();
 }
 
 void jwweb_net::login(){
@@ -119,10 +129,20 @@ void jwweb_net::net_cb(http_response* res){//网络回掉函数
             sender->exec("_data/index_LOGIN.aspx",login_data,"login_cb");
         }
     }else if(type=="get_info"){
-        qDebug()<<res->content;
-        //QMessageBox::about(0,"ss",QString::fromLocal8Bit(res->content.replace("<","").replace(">"," ")));
         log("请求信息成功！");
         got_info(QString::fromLocal8Bit(res->content));
+    }else if(type=="cjfb_pre"){
+        QRegExp* reg=new QRegExp("Col1.([0-9]+).='([0-9]+)';Col2.([0-9]+).='([0-9]+)';Col3.([0-9]+).='([^']+)';");
+        QString l="";
+        qDebug()<<"233";
+        for(int i=0;(i=reg->indexIn(QString::fromLocal8Bit(res->content),i)+1)!=0;){
+            if(reg->cap(1)!=l){
+                qDebug()<<" "+reg->cap(2)+"学年"<<reg->cap(2)<<"\n";
+                l=reg->cap(2);
+            }
+            qDebug()<<"  "+reg->cap(6)<<reg->cap(2)+"."+reg->cap(4)<<"\n";
+        }
+        //
     }
 }
 

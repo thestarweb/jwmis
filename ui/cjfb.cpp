@@ -22,6 +22,9 @@ cjfb::cjfb(QWidget *parent) : QWidget(parent)
     top->addWidget(return_button);
     top->addStretch(10);
 }
+void cjfb::showEvent(QShowEvent *){
+    jwweb_net::get()->add_task("cjfb_pre");
+}
 void cjfb::_on_return(){
     on_return();
 }
