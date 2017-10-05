@@ -26,6 +26,7 @@ signals:
 public slots:
     void on_submit();
     void _on_return();
+    void net_cb(QString task,QByteArray bytes);
 };
 
 #endif // CJFB_H

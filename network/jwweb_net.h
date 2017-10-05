@@ -30,7 +30,7 @@ private:
     void do_task();
 signals:
     void log(QString info);
-    void got_info(QString text);
+    void down_task(QString task_name,QByteArray bytes);
 public slots:
     void net_cb(http_response* res);
     void _login(QString yzm);

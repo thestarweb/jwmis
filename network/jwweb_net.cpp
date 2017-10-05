@@ -130,19 +130,10 @@ void jwweb_net::net_cb(http_response* res){//网络回掉函数
         }
     }else if(type=="get_info"){
         log("请求信息成功！");
-        got_info(QString::fromLocal8Bit(res->content));
+        down_task("got_info",res->content);
     }else if(type=="cjfb_pre"){
-        QRegExp* reg=new QRegExp("Col1.([0-9]+).='([0-9]+)';Col2.([0-9]+).='([0-9]+)';Col3.([0-9]+).='([^']+)';");
-        QString l="";
-        qDebug()<<"233";
-        for(int i=0;(i=reg->indexIn(QString::fromLocal8Bit(res->content),i)+1)!=0;){
-            if(reg->cap(1)!=l){
-                qDebug()<<" "+reg->cap(2)+"学年"<<reg->cap(2)<<"\n";
-                l=reg->cap(2);
-            }
-            qDebug()<<"  "+reg->cap(6)<<reg->cap(2)+"."+reg->cap(4)<<"\n";
-        }
-        //
+        log("成功获取信息表");
+        down_task("got_cjfb_pre",res->content);
     }
 }
 

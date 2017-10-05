@@ -78,7 +78,7 @@ my_info::my_info(QWidget *parent) : QWidget(parent)
 
     root->addStretch();
 
-    QObject::connect(jwweb_net::get(),SIGNAL(got_info(QString)),this,SLOT(got_info(QString)));
+    QObject::connect(jwweb_net::get(),SIGNAL(down_task(QString,QByteArray)),this,SLOT(got_info(QString,QByteArray)));
 }
 void my_info::set_info(QString html){
     qDebug(qUtf8Printable(html));
@@ -91,7 +91,9 @@ void my_info::showEvent(QShowEvent *){
 void my_info::_on_return(){
     on_return();
 }
-void my_info::got_info(QString text){
+void my_info::got_info(QString task,QByteArray bytes){
+    if(task!="got_info") return;
+    QString text=QString::fromLocal8Bit(bytes);
     QRegExp* reg=new QRegExp("姓&ensp;&ensp;&ensp;&ensp;名</td><td colspan='2'>([^<]+)<br>");
     reg->indexIn(text);
     name->setText(reg->cap(1));

@@ -51,7 +51,7 @@ signals:
 public slots:
     void set_info(QString html);
     void _on_return();
-    void got_info(QString text);
+    void got_info(QString task, QByteArray bytes);
 };
 
 #endif // MY_INFO_H
