@@ -32,10 +32,21 @@ void jwweb_net::do_task(){
     if(task_name=="info"){
         log("正在获取信息");
         sender->exec("xsxj/Stu_MyInfo_RPT.aspx","get_info");
-    }
-    else if(task_name=="cjfb_pre"){
+    }else if(task_name=="cjfb_pre"){
         log("正在获取学期信息");
         sender->exec("xscj/Stu_cjfb.aspx","cjfb_pre");
+    }else if(task_name.indexOf("cjfb")==0){
+        QStringList c=task_name.split(".");
+        QMap<QString,QByteArray>* post=new QMap<QString,QByteArray>;
+        post->insert("SelXNXQ",QString::number(c.length()-1).toLocal8Bit());
+        if(c.length()>1){
+            post->insert("sel_xn",c.at(1).toLocal8Bit());
+            if(c.length()>2) post->insert("sel_xq",c.at(2).toLocal8Bit());
+        }
+        post->insert("submit",QString::fromUtf8("检索").toLocal8Bit());
+        sender->set_head("Referer",starJwmis::get()->url()+"/xscj/Stu_cjfb.aspx");
+        log("获取成绩分布");
+        sender->exec("xscj/Stu_cjfb_rpt.aspx",post,task_name);
     }
     else
         qDebug()<<"unknow task : "<<task_name<<endl;
@@ -134,6 +145,9 @@ void jwweb_net::net_cb(http_response* res){//网络回掉函数
     }else if(type=="cjfb_pre"){
         log("成功获取信息表");
         down_task("got_cjfb_pre",res->content);
+    }else if(type.indexOf("cjfb")==0){
+        log("获取成绩分布成功");
+        down_task("cjfb",res->content);
     }
 }
 
